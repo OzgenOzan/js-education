@@ -1,5 +1,5 @@
 "use strict";
-
+/*
 const bookings = [];
 
 const createBooking = function (flightNum, numPass = 1, price = 199 * numPass) {
@@ -56,3 +56,25 @@ newPassport(ozan);
 checkIn(flight, ozan);
 
 // JS doesn't have passing by reference, has passing by value
+*/
+
+const removeSpaces = function (str) {
+  return str.replace(/ /g, "").toLowerCase();
+};
+
+const upperFirstWord = function (str) {
+  const [first, ...others] = str.split(" ");
+  return [first.toUpperCase(), ...others].join(" ");
+};
+
+// Higher order function
+const wordTransformer = function (str, fn) {
+  console.log(str);
+  console.log(`Transformed string: ${fn(str)}`);
+
+  console.log(`Transformed by: ${fn.name}`);
+};
+
+wordTransformer("JavaScript is the best!", upperFirstWord);
+
+wordTransformer("JavaScript is the best!", removeSpaces);
