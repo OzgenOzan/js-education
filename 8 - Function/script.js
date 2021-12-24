@@ -21,3 +21,38 @@ createBooking("Deneme123");
 createBooking("Deneme123", 3);
 createBooking("Deneme123", 5, 300);
 createBooking("Deneme123", undefined, 400);
+
+const flight = "Deneme456";
+const ozan = {
+  name: "Ozan",
+  passport: 987456123,
+};
+
+const checkIn = function (flightNum, passenger) {
+  flightNum = "Deneme789";
+  passenger.name = "Mr. " + passenger.name;
+
+  if (passenger.passport === 987456123) {
+    alert("Checked In");
+  } else {
+    alert("Wrong Passport!");
+  }
+};
+
+// checkIn(flight, ozan);
+
+// console.log(flight);
+// console.log(ozan);
+
+// Manipulating primitives vs objects
+// const flightNum = flight;
+// const passenger = ozan;
+
+const newPassport = function (person) {
+  person.passport = Math.trunc(Math.random() * 100000);
+};
+
+newPassport(ozan);
+checkIn(flight, ozan);
+
+// JS doesn't have passing by reference, has passing by value
