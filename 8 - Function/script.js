@@ -56,7 +56,7 @@ newPassport(ozan);
 checkIn(flight, ozan);
 
 // JS doesn't have passing by reference, has passing by value
-*/
+
 
 const removeSpaces = function (str) {
   return str.replace(/ /g, "").toLowerCase();
@@ -78,3 +78,96 @@ const wordTransformer = function (str, fn) {
 wordTransformer("JavaScript is the best!", upperFirstWord);
 
 wordTransformer("JavaScript is the best!", removeSpaces);
+
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+greet("Selam")("abi");
+
+const greetHello = greet("Hello there");
+greetHello("Ozan");
+greetHello("General Kenobi");
+
+
+// Do the same with arrow functions
+const greet = (greeting) => (name) => console.log(`${greeting} ${name}`);
+
+greet("Hello")("Ozan");
+
+
+const thy = {
+  airline: "thy",
+  iataCode: "TK",
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline}, flight ${this.iataCode}${flightNum}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+thy.book(123, "Ozan Özgen");
+thy.book(456, "Emir Güzel");
+console.log(thy);
+
+const anadoluJet = {
+  airline: "Anadolu Jet",
+  iataCode: "AJ",
+  bookings: [],
+};
+
+const book = thy.book;
+
+// Call method + spread operator
+book.call(anadoluJet, 23, "Sevgi Borazan");
+
+// Apply method
+const flightData = [789, "Ahmet Karabulut"];
+book.apply(anadoluJet, flightData);
+console.log(anadoluJet);
+
+book.call(anadoluJet, ...flightData);
+
+// Bind method
+const bookAJ = book.bind(anadoluJet);
+
+bookAJ(321, "Ahmet Ozan");
+console.log(anadoluJet);
+
+// + preset with bind method
+const bookAJ21 = book.bind(anadoluJet, 21);
+bookAJ21("Ozan Özgen");
+
+// + with event listeners
+thy.planes = 300;
+thy.buyPlane = function () {
+  // console.log(this);
+
+  this.planes++;
+  console.log(this.planes);
+};
+
+// Doesn't work, becuase this keyword will always point to the attached element (in this case, the buy button)
+document
+  .querySelector(".buy")
+  .addEventListener("click", thy.buyPlane.bind(thy));
+
+// Partial application
+const addTax = (rate, value) => value + value * rate;
+
+console.log(addTax(0.1, 200));
+
+// addVAT = value => value + value * 0.23;
+const addVAT = addTax.bind(null, 0.23);
+console.log(addVAT(500));
+console.log(addVAT(100));
+*/
+
+const addTax = (rate) => (value) => console.log(`${rate * value + value}`);
+
+addTax(0.18)(100);
