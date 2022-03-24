@@ -118,16 +118,23 @@ const airAlbania = {
     this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
   },
 };
+const book = airAlbania.book;
 
 airAlbania.book(1003, "Ozan Ozgen");
 airAlbania.book(1005, "Sevgi Borazan");
 console.log(airAlbania.bookings);
 
 const thy = {
-  name: "Türk Havayolları",
+  airline: "THY",
   iataCode: "TK",
   bookings: [],
 };
+
+// Doesn't work because of this keyword is undefined, point to global
+//book(23, "ozan")
+
+book.call(thy, 2025, "Ozan");
+console.log(thy.bookings);
 
 // Older study, continued from the begining at the top
 
