@@ -1,4 +1,136 @@
 "use strict";
+
+/*
+
+// Pay attention to constant's names
+
+const bookings = [];
+
+const createBooking = function (flightNum, numPass = 1, price = 249 * numPass) {
+  // Old way to declaring default values
+  // numPass = numPass || 1;
+
+  const booking = {
+    flightNum,
+    numPass,
+    price,
+  };
+  console.log(booking);
+  bookings.push(booking);
+};
+
+createBooking("ZB1003");
+console.log(bookings);
+
+createBooking("ZB1003", 2, 498);
+createBooking("ZB1003", 5);
+createBooking("TK 4055", undefined, 999);
+
+--
+
+const flight = "ZB1003";
+const ozan = {
+  name: "Ozan Ozgen",
+  passport: 123654789,
+};
+
+const checkIn = function (flightNum, passenger) {
+  // you can't change a primitive data type in a function / method like this:
+  // flightNum = "TK4045";
+  passenger.name = "Mr. " + passenger.name;
+
+  if (passenger.passport === 123654789) {
+    alert("Successfully Checked in");
+  } else {
+    alert("Wrong Passport! 😠");
+  }
+};
+
+// checkIn(flight, ozan);
+console.log(flight);
+console.log(ozan);
+
+const newPassport = function (person) {
+  person.passport = Math.trunc(Math.random() * 1000000000);
+};
+
+newPassport(ozan);
+checkIn(flight, ozan);
+
+--
+
+const removeSpaces = function (str) {
+  return str.replace(/ /g, "").toLowerCase();
+};
+
+const upperFirstWord = function (str) {
+  const [first, ...others] = str.split(" ");
+  return [first.toUpperCase(), ...others].join(" ");
+};
+
+const wordTransformer = function (str, fn) {
+  console.log(`Original string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`);
+
+  console.log(`Transformed by: ${fn.name}`);
+};
+
+wordTransformer("js is the best!", upperFirstWord);
+wordTransformer("js is the best!", removeSpaces);
+
+const high5 = function () {
+  console.log("👋");
+};
+
+// JS callback functions
+document.body.addEventListener("click", high5);
+["Ozan", "Sevgi", "Emir"].forEach(high5);
+
+--
+
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+const greeterHey = greet("Hey");
+greeterHey("Ozan");
+greeterHey("Sevgi");
+
+greet("Merhaba")("Ozan");
+
+const greetArrow = (greeting) => (name) => console.log(`${greeting} ${name}`);
+
+greetArrow("Selam")("Ozan");
+
+*/
+
+const airAlbania = {
+  airline: "Air Albania",
+  iataCode: "ZB",
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline}, flight ${this.iataCode}${flightNum}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+airAlbania.book(1003, "Ozan Ozgen");
+airAlbania.book(1005, "Sevgi Borazan");
+console.log(airAlbania.bookings);
+
+const thy = {
+  name: "Türk Havayolları",
+  iataCode: "TK",
+  bookings: [],
+};
+
+// Older study, continued from the begining at the top
+
 /*
 const bookings = [];
 
@@ -170,7 +302,7 @@ console.log(addVAT(100));
 const addTax = (rate) => (value) => console.log(`${rate * value + value}`);
 
 addTax(0.18)(100);
-*/
+
 
 // Coding Challenge 1
 
@@ -222,3 +354,20 @@ poll.displayResults.call({ answers: [5, 4, 3] }, "string");
 
 //   poll.displayResults();
 // };
+
+
+// single shot function - Immediately Invoked Function Expressions (IIFE)
+
+(function () {
+  console.log("You recieve only one opportunity");
+  const isPrivate = 23;
+})();
+
+console.log(isPrivate);
+
+{
+  const isPrivate = 23;
+}
+
+console.log(isPrivate);
+*/
