@@ -105,7 +105,7 @@ const greetArrow = (greeting) => (name) => console.log(`${greeting} ${name}`);
 
 greetArrow("Selam")("Ozan");
 
-*/
+--
 
 const airAlbania = {
   airline: "Air Albania",
@@ -133,11 +133,102 @@ const thy = {
 // Doesn't work because of this keyword is undefined, point to global
 //book(23, "ozan")
 
+// Call method
 book.call(thy, 2025, "Ozan");
 console.log(thy.bookings);
 
-// Older study, continued from the begining at the top
+// Apply method
+const flightData = [2035, "Sevgi"];
+// book.apply(thy, flightData);
+book.call(thy, ...flightData);
+console.log(thy);
 
+// Bind method
+const bookTK = book.bind(thy);
+bookTK(2065, "Emir");
+console.log(thy);
+
+// With Event Listeners
+thy.planes = 300;
+thy.buyPlane = function () {
+  this.planes++;
+  console.log(this.planes);
+};
+
+document
+  .querySelector(".buy")
+  .addEventListener("click", thy.buyPlane.bind(thy));
+
+// Partial application
+const addTax = (rate, value) => value + value * rate;
+console.log(addTax(0.1, 200));
+
+const addVAT = addTax.bind(null, 0.18);
+console.log(addVAT(100));
+
+const addCustomRate = (rate) => (value) =>
+  console.log(`${rate * value + value}`);
+
+const addCustom30 = addCustomRate(0.3);
+addCustom30(100);
+
+--
+
+// Coding challenge 1
+const poll = {
+  question: "What is your favourite programming language?",
+  options: ["0: JavaScript", "1: Python", "2: Rust", "3:C++"],
+  // This generates [0, 0, 0, 0]. More in the next section!
+  answers: new Array(4).fill(0),
+};
+
+console.log(poll.answers);
+
+poll.displayResults = function (type = "array") {
+  if (type === "array") {
+    console.log(this.answers);
+  } else {
+    console.log(`Poll results are ${this.answers.join(", ")}`);
+  }
+};
+
+poll.registerNewAnswer = function () {
+  let answer = prompt(`What is your favourite programming language?
+  0: JavaScript
+  1: Python
+  2: Rust
+  3: C++
+  (Write option number)`);
+
+  if (answer < this.answers.length) {
+    this.answers[answer]++;
+  } else [alert("Not a valid answer!")];
+
+  console.log(this.answers);
+  this.displayResults();
+  this.displayResults("string");
+};
+
+document
+  .querySelector(".poll")
+  .addEventListener("click", poll.registerNewAnswer.bind(poll));
+
+poll.displayResults.call({ answers: [5, 2, 3, 4, 3, 1] }, "string");
+
+*/
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+// Older study, continued from the begining at the top
 /*
 const bookings = [];
 
