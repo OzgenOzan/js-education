@@ -228,6 +228,9 @@ const secureBooking = function () {
 
 const booker = secureBooking();
 
+booker();
+booker();
+
 // Older study, continued from the begining at the top
 /*
 const bookings = [];
