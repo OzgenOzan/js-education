@@ -215,7 +215,7 @@ document
 
 poll.displayResults.call({ answers: [5, 2, 3, 4, 3, 1] }, "string");
 
-*/
+--
 
 const secureBooking = function () {
   let passengerCount = 0;
@@ -230,6 +230,17 @@ const booker = secureBooking();
 
 booker();
 booker();
+
+*/
+// Coding challenge 2, closure
+(function () {
+  const header = document.querySelector("h1");
+  header.style.color = "red";
+
+  document.querySelector("body").addEventListener("click", function () {
+    header.style.color = "blue";
+  });
+})();
 
 // Older study, continued from the begining at the top
 /*
