@@ -79,6 +79,19 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLocaleLowerCase()
+      .split(" ")
+      .map((name) => name[0])
+      .join("");
+  });
+};
+
+createUsernames(accounts);
+// console.log(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
@@ -89,7 +102,7 @@ displayMovements(account1.movements);
 //   ["GBP", "Pound sterling"],
 // ]);
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -189,4 +202,38 @@ const checkDogs = function (dogsJulia, dogsKate) {
 };
 checkDogs(dataJulia1, dataKate1);
 
+const eurToUsd = 1.1;
+
+const movementsUSD = movements.map((mov) => Math.trunc(mov * eurToUsd));
+console.log(movements);
+console.log(movementsUSD);
+
+const movementsUSDfor = [];
+for (const mov of movements) {
+  movementsUSDfor.push(Math.trunc(mov * eurToUsd));
+}
+console.log(movementsUSDfor);
+
+const movementsDesc = movements.map(
+  (mov, i) =>
+    `Transaction ${i + 1}: You ${mov > 0 ? "deposited" : "withdrew"} ${Math.abs(
+      mov
+    )}`
+);
+console.log(movementsDesc);
+
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
+const withdrawals = movements.filter((mov) => mov < 0);
+console.log(movements);
+console.log(deposits);
+console.log(withdrawals);
 */
+
+const globalBalance = movements.reduce(function (acc, mov) {
+  return acc + mov;
+}, 0);
+
+console.log(globalBalance);
