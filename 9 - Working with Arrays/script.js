@@ -558,11 +558,45 @@ const calcPortion = function (dogs) {
 };
 calcPortion(dogs);
 console.log(dogs);
+/*
+// const howMuchEats = function (dogs) {
+//   const sarahDog = dogs.find((el, i, arr) => el.owners.includes("Sarah"));
+//   sarahDog.portion > sarahDog.curFood
+//     ? console.log("Sarah's dog eats too little")
+//     : console.log("Sarah's dog eats too much");
+// };
+// howMuchEats(dogs);
+
+const ownersEatTooMuch = [];
+const ownersEatTooLittle = [];
 
 const howMuchEats = function (dogs) {
-  const sarahDog = dogs.find((el, i, arr) => el.owners.includes("Sarah"));
-  sarahDog.portion > sarahDog.curFood
-    ? console.log("Sarah's dog eats too little")
-    : console.log("Sarah's dog eats too much");
+  const curDog = dogs.map((cur) =>
+    cur.portion > cur.curFood
+      ? ownersEatTooLittle.push(cur)
+      : ownersEatTooMuch.push(cur)
+  );
 };
 howMuchEats(dogs);
+console.log(ownersEatTooLittle);
+console.log(ownersEatTooMuch);
+
+console.log(
+  ownersEatTooLittle.flatMap((acc) => acc.owners).join(", ") +
+    "'s dogs are eating too little!",
+  ownersEatTooMuch.flatMap((acc) => acc.owners).join(", ") +
+    "'s dogs are eating too much!"
+);
+
+console.log(dogs.some((dog) => dog.curFood === dog.portion));
+
+const checkEatOkay = (dog) =>
+  dog.curFood > dog.portion * 0.9 && dog.curFood < dog.portion * 1.1;
+
+console.log(dogs.some(checkEatOkay));
+
+console.log(dogs.filter(checkEatOkay));
+*/
+
+const dogsCopy = dogs.slice().sort((a, b) => a.portion - b.portion);
+console.log(dogsCopy);
