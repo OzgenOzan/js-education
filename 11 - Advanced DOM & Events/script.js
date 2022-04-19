@@ -44,7 +44,7 @@ const btnScrollTo = document.querySelector(".btn--scroll-to");
 const section1 = document.querySelector("#section--1");
 
 btnScrollTo.addEventListener("click", function (e) {
-  const s1coord = section1.getBoundingClientRect();
+  // const s1coord = section1.getBoundingClientRect();
   // console.log(s1coord);
 
   // console.log(e.target.getBoundingClientRect());
@@ -61,8 +61,15 @@ btnScrollTo.addEventListener("click", function (e) {
   //   document.documentElement.clientWidth
   // );
 
-  // using scroll button
-  window.scrollTo(s1coord.left, s1coord.top);
+  // using scroll button (conventional way)
+  // window.scrollTo(s1coord.left + window.scrollX, s1coord.top + window.scrollY);
+  // window.scrollTo({
+  //   left: s1coord.left + window.scrollX,
+  //   top: s1coord.top + window.scrollY,
+  //   behavior: "smooth",
+  // });
+  // modern way
+  section1.scrollIntoView({ behavior: "smooth" });
 });
 
 /*
@@ -128,4 +135,50 @@ console.log(logo.dataset.versionNumber);
 // logo.classList.remove();
 // logo.classList.toggle();
 // logo.classList.contains();
+
+
+const h1 = document.querySelector("h1");
+
+const clh1 = function (e) {
+  console.log("hovered over the h1 element");
+
+  // h1.removeEventListener("mouseenter", clh1);
+};
+
+h1.addEventListener("mouseenter", clh1);
+
+// setTimeout(() => {
+//   h1.removeEventListener("mouseenter", clh1);
+// }, 3000);
+
+const randomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
+
+const randomColor = () =>
+  `rgb(${randomInt(0, 255)}, ${randomInt(0, 255)}, ${randomInt(0, 255)})`;
+
+console.log(randomColor());
+
+document.querySelector(".nav__link").addEventListener("click", function (e) {
+  this.style.backgroundColor = randomColor();
+  console.log("link", e.target, e.currentTarget);
+  console.log(e.currentTarget === this);
+
+  // stop the parent effecting
+  // e.stopPropagation();
+});
+
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  this.style.backgroundColor = randomColor();
+  // console.log("links", e.target, e.currentTarget);
+});
+
+document.querySelector(".nav").addEventListener(
+  "click",
+  function (e) {
+    this.style.backgroundColor = randomColor();
+    console.log("nav", e.target, e.currentTarget);
+  }
+  // true
+);
 */
