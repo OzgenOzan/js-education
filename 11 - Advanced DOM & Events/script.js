@@ -3,6 +3,12 @@
 ///////////////////////////////////////
 // Modal window
 
+/// Selecting elements
+const allSections = document.querySelectorAll(".section"); // returns a node list which is static
+const allButtons = document.getElementsByTagName("button"); // returns HTML collection which is dynamic
+const header = document.querySelector(".header");
+const btnScrollTo = document.querySelector(".btn--scroll-to");
+const section1 = document.querySelector("#section--1");
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -33,16 +39,6 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-////////////
-
-/// Selecting elements
-const allSections = document.querySelectorAll(".section"); // returns a node list which is static
-const allButtons = document.getElementsByTagName("button"); // returns HTML collection which is dynamic
-const header = document.querySelector(".header");
-
-const btnScrollTo = document.querySelector(".btn--scroll-to");
-const section1 = document.querySelector("#section--1");
-
 btnScrollTo.addEventListener("click", function (e) {
   // const s1coord = section1.getBoundingClientRect();
   // console.log(s1coord);
@@ -72,6 +68,50 @@ btnScrollTo.addEventListener("click", function (e) {
   section1.scrollIntoView({ behavior: "smooth" });
 });
 
+// Page navigation
+// document.querySelectorAll(".nav__link").forEach(function (el) {
+//   el.addEventListener("click", function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute("href");
+//     // console.log(id);
+//     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+//   });
+// });
+
+document.querySelector(".nav__links").addEventListener("click", function (e) {
+  e.preventDefault();
+  // console.log(e.target);
+  if (e.target.classList.contains("nav__link")) {
+    // console.log("link");
+    const id = e.target.getAttribute("href");
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  }
+});
+
+// Tabbed component
+const tabs = document.querySelectorAll(".operations__tab");
+const tabsContainer = document.querySelector(".operations__tab-container");
+const tabsContent = document.querySelectorAll(".operations__content");
+
+tabsContainer.addEventListener("click", function (e) {
+  const clickedTab = e.target.closest(".operations__tab");
+  if (!clickedTab) return;
+
+  if (clickedTab.classList.contains("operations__tab")) {
+    // console.log(clickedTab);
+    tabs.forEach((t) => t.classList.remove("operations__tab--active"));
+    tabsContent.forEach((c) =>
+      c.classList.remove("operations__content--active")
+    );
+    clickedTab.classList.add("operations__tab--active");
+    document
+      .querySelector(`.operations__content--${clickedTab.dataset.tab}`)
+      .classList.add("operations__content--active");
+  }
+  // clickedEl.classList.contains("operations__tab") ? clickedEl.getAttribute("")
+});
+
+///////////////////////////////////////////
 /*
 // console.log(document.documentElement);
 // console.log(document.head);
@@ -181,4 +221,32 @@ document.querySelector(".nav").addEventListener(
   }
   // true
 );
+
+const h1 = document.querySelector("h1");
+
+// Going downwards: child elements
+console.log(h1.querySelectorAll(".highlight"));
+console.log(h1.childNodes);
+console.log(h1.children);
+h1.firstElementChild.style.color = "white";
+h1.lastElementChild.style.color = "orangered";
+
+// Going uppwards: parent elements
+// console.log(h1.querySelectorAll(".header__title"));
+console.log(h1.parentNode);
+console.log(h1.parentElement);
+
+h1.closest(".header").style.background = "var(--gradient-secondary)";
+
+// Going parallel: sibling elements
+console.log(h1.previousElementSibling);
+console.log(h1.nextElementSibling);
+
+console.log(h1.previousSibling);
+console.log(h1.nextSibling);
+
+console.log(h1.parentElement.children);
+[...h1.parentElement.children].forEach(function (el) {
+  el !== h1 ? (el.style.transform = "scale(0.5)") : el;
+});
 */
