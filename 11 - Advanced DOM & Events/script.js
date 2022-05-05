@@ -13,6 +13,15 @@ const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
+const nav = document.querySelector(".nav");
+const tabs = document.querySelectorAll(".operations__tab");
+const tabsContainer = document.querySelector(".operations__tab-container");
+const tabsContent = document.querySelectorAll(".operations__content");
+const slider = document.querySelector(".slider");
+const slides = document.querySelectorAll(".slide");
+const imgTargets = document.querySelectorAll("img[data-src]");
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
 
 const openModal = function (e) {
   e.preventDefault();
@@ -89,10 +98,6 @@ document.querySelector(".nav__links").addEventListener("click", function (e) {
 });
 
 // Tabbed component
-const tabs = document.querySelectorAll(".operations__tab");
-const tabsContainer = document.querySelector(".operations__tab-container");
-const tabsContent = document.querySelectorAll(".operations__content");
-
 tabsContainer.addEventListener("click", function (e) {
   const clickedTab = e.target.closest(".operations__tab");
   if (!clickedTab) return;
@@ -110,6 +115,167 @@ tabsContainer.addEventListener("click", function (e) {
   }
   // clickedEl.classList.contains("operations__tab") ? clickedEl.getAttribute("")
 });
+
+//// Bind method allows to add parameters to a function WITHOUT having to change the function to accept additional parameters
+// function handleHover(e) {
+//   const link = e.target;
+//   console.log(
+//     `Event object will always be passed in by addEventListener: ${link}`
+//   );
+//   console.log(
+//     `Params: ${this.opacity}, ${this.color}, and ${this.backgroundColor}`
+//   );
+// }
+// nav.addEventListener(
+//   "mouseover",
+//   handleHover.bind({ opacity: 0.5, color: "red", backgroundColor: "#808080" })
+// );
+
+// const handleHover = function (e) {
+//   if (e.target.classList.contains("nav__link")) {
+//     const link = e.target;
+//     const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+//     const logo = link.closest(".nav").querySelector("img");
+
+//     siblings.forEach((el) => {
+//       if (el !== link) el.style.opacity = this;
+//     });
+//     logo.style.opacity = this;
+//   }
+// };
+
+// nav.addEventListener("mouseover", handleHover.bind(0.5));
+
+// nav.addEventListener("mouseout", handleHover.bind(1));
+
+const handleHover = function (o) {
+  return function (e) {
+    if (e.target.classList.contains("nav__link")) {
+      const link = e.target;
+      const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+      const logo = link.closest(".nav").querySelector("img");
+
+      siblings.forEach((el) => {
+        if (el !== link) el.style.opacity = o;
+      });
+      logo.style.opacity = o;
+    }
+  };
+};
+nav.addEventListener("mouseover", handleHover(0.5));
+
+nav.addEventListener("mouseout", handleHover(1));
+
+// const initialCoords = section1.getBoundingClientRect();
+// window.addEventListener("scroll", function () {
+//   // console.log(window.scrollY);
+
+//   if (this.window.scrollY > initialCoords.top) nav.classList.add("sticky");
+//   else {
+//     nav.classList.remove("sticky");
+//   }
+// });
+
+// Sticky navigation: Intersection observer api
+// const obsCallBack = function (entries, observer) {
+//   entries.forEach((entry) => {
+//     console.log(entry);
+//   });
+// };
+
+// const obsOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+
+// const observer = new IntersectionObserver(obsCallBack, obsOptions);
+// observer.observe(section1);
+
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry);
+
+  if (!entry.isIntersecting) {
+    nav.classList.add("sticky");
+  } else {
+    nav.classList.remove("sticky");
+  }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
+
+// Revealing sections
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove("section--hidden");
+  observer.unobserve(entry.target); // performance related
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.2,
+});
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  // section.classList.add("section--hidden");
+});
+
+// Lazy loading images
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  // console.log(entry);
+
+  if (!entry.isIntersecting) return;
+  // Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+  entry.target.addEventListener("load", function () {
+    entry.target.classList.remove("lazy-img");
+  });
+
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: "100px",
+});
+imgTargets.forEach((img) => imgObserver.observe(img));
+
+let currSlide = 0;
+const maxSlide = slides.length;
+
+const goToSlide = function () {
+  slides.forEach((s, i) => {
+    s.style.transform = `translateX(${100 * (i - currSlide)}%)`;
+  });
+};
+goToSlide();
+
+const sliderBothSides = function (o) {
+  return function () {
+    if (o) {
+      currSlide = (currSlide + 1) % maxSlide;
+    } else {
+      currSlide = (currSlide + maxSlide - 1) % maxSlide;
+    }
+    goToSlide();
+  };
+};
+
+btnRight.addEventListener("click", sliderBothSides(true));
+btnLeft.addEventListener("click", sliderBothSides(false));
 
 ///////////////////////////////////////////
 /*
