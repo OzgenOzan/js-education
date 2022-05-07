@@ -22,6 +22,7 @@ const slides = document.querySelectorAll(".slide");
 const imgTargets = document.querySelectorAll("img[data-src]");
 const btnLeft = document.querySelector(".slider__btn--left");
 const btnRight = document.querySelector(".slider__btn--right");
+const dotContainer = document.querySelector(".dots");
 
 const openModal = function (e) {
   e.preventDefault();
@@ -256,6 +257,26 @@ imgTargets.forEach((img) => imgObserver.observe(img));
 let currSlide = 0;
 const maxSlide = slides.length;
 
+const createDots = function () {
+  slides.forEach(function (_, i) {
+    dotContainer.insertAdjacentHTML(
+      "beforeend",
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    );
+  });
+};
+createDots();
+
+const activateDot = function () {
+  document
+    .querySelectorAll(".dots__dot")
+    .forEach((dot) => dot.classList.remove("dots__dot--active"));
+  document
+    .querySelector(`.dots__dot[data-slide="${currSlide}"]`)
+    .classList.add("dots__dot--active");
+};
+activateDot();
+
 const goToSlide = function () {
   slides.forEach((s, i) => {
     s.style.transform = `translateX(${100 * (i - currSlide)}%)`;
@@ -271,11 +292,26 @@ const sliderBothSides = function (o) {
       currSlide = (currSlide + maxSlide - 1) % maxSlide;
     }
     goToSlide();
+    activateDot(currSlide);
   };
 };
 
 btnRight.addEventListener("click", sliderBothSides(true));
 btnLeft.addEventListener("click", sliderBothSides(false));
+
+document.addEventListener("keydown", function (e) {
+  // console.log(e);
+  e.key === "ArrowLeft" && sliderBothSides(false)();
+  e.key === "ArrowRight" && sliderBothSides(true)();
+});
+
+dotContainer.addEventListener("click", function (e) {
+  if (e.target.classList.contains("dots__dot")) {
+    currSlide = +e.target.dataset.slide;
+    goToSlide(currSlide);
+    activateDot(currSlide);
+  }
+});
 
 ///////////////////////////////////////////
 /*
@@ -414,5 +450,16 @@ console.log(h1.nextSibling);
 console.log(h1.parentElement.children);
 [...h1.parentElement.children].forEach(function (el) {
   el !== h1 ? (el.style.transform = "scale(0.5)") : el;
+});
+
+document.addEventListener("DOMContentLoaded", function (e) {
+  console.log(e);
+});
+
+window.addEventListener("laod", function () {})
+
+window.addEventListener("beforeunload", function (e) {
+  e.preventDefault();
+  e.returnValue = "";
 });
 */
