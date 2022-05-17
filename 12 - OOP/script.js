@@ -64,4 +64,68 @@ console.log(bmw, mercedes);
 
 bmw.accelerate();
 mercedes.brake();
+
+// ES6 Classes
+
+// Class Expressions
+// const PersonCl = class {};
+
+// Class Decleration
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // Methods will be added to .prototype property
+  calcAge() {
+    console.log(2022 - this.birthYear);
+  }
+
+  get age() {
+    return 2022 - this.birthYear;
+  }
+
+  set fullName(name) {
+    // console.log(name);
+    name.includes(" ")
+      ? (this._fullName = name)
+      : alert(`${name} is not a full name`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+}
+
+// PersonCl.prototype.greet = function () {
+//   console.log(`Welcome back ${this.fullName}`);
+// };
+
+const sevgi = new PersonCl("Sevgi Borazan", 1993);
+console.log(sevgi.fullName);
+console.log(sevgi);
+sevgi.calcAge();
+// sevgi.greet();
+console.log(sevgi.age);
+
+// Classes are not hoisted, classes are some kind of special functions, classes are executed in strict mode
+
+const account = {
+  owner: "ozan",
+  movs: [300, 400, 100, 15],
+
+  get latest() {
+    return this.movs.slice(-1).pop();
+  },
+
+  set latest(mov) {
+    this.movs.push(mov);
+  },
+};
+
+console.log(account.latest);
+
+account.latest = 90;
+console.log(account.movs);
 */
