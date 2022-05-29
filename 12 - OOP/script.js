@@ -446,3 +446,69 @@ const acc1 = new Account("Ozan", "TL", 1111);
 acc1.deposit(250).withdraw(140).requestLoan(1000);
 console.log(acc1);
 */
+
+class CarCl {
+  constructor(brand, speed) {
+    this.brand = brand;
+    this.speed = speed;
+  }
+
+  set accelerate(acc) {
+    this.acc = acc;
+  }
+
+  get accelerate() {
+    this.acc ? (this.speed += this.acc) : (this.speed += 10);
+    console.log(`${this.brand} is going at ${this.speed} km/h`);
+    return this;
+  }
+
+  set brake(dec) {
+    this.dec = dec;
+  }
+
+  get brake() {
+    this.dec ? (this.speed += this.dec) : (this.speed -= 5);
+    console.log(`${this.brand} is going at ${this.speed} km/h`);
+    return this;
+  }
+}
+
+class EVCl extends CarCl {
+  #charge;
+
+  constructor(brand, speed, charge) {
+    super(brand, speed);
+    this.#charge = charge;
+  }
+
+  chargeBattery(chargeTo) {
+    this.#charge = chargeTo;
+    return this;
+  }
+
+  set accelerate(acc) {
+    this.acc = acc;
+  }
+
+  get accelerate() {
+    this.acc ? (this.speed += this.acc) : (this.speed += 20);
+    this.#charge -= 1;
+    console.log(
+      `${this.brand} is going at ${this.speed} km/h, and with ${
+        this.#charge
+      }% of charge`
+    );
+    return this;
+  }
+}
+
+const rivian = new EVCl("Rivian", 100, 24);
+console.log(rivian);
+
+rivian.accelerate.brake.brake.chargeBattery(50).accelerate.accelerate.accelerate
+  .accelerate;
+
+rivian.accelerate = 50;
+rivian.brake = -40;
+rivian.accelerate.accelerate.brake.brake.brake.accelerate;
